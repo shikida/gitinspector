@@ -4,14 +4,6 @@ import java.util.Date;
 
 public class BlameData {
 
-	/*
-        System.out.println("Line " + lineNumber + " last modified by:");
-        System.out.println("Commit: " + commit.getName());
-        System.out.println("Author: " + author.getName() + " <" + author.getEmailAddress() + ">");
-        System.out.println("Date: " + author.getWhen());
-        System.out.println("Message: " + commit.getShortMessage());
-	 */
-	
 	private int line;
 	private String commit;
 	private String author;

@@ -22,12 +22,17 @@ public class GitInspector {
 	private static final String FLAG = "ASVS 5.0.0";
 
 	public static void main(String[] args) throws Exception {
+		List<BlameData> result = process("C:\\Users\\119667631\\git\\HCOM_202501_CodificacaoSeguraV2pub");
+		System.out.println(result);
+	}
+	
+	public static List<BlameData> process(String path) throws Exception {
 
 		// look for ASVS at full path
 		List<File> allFiles = new ArrayList<>();
 
 		// Path to your local .git directory
-		File repoDir = new File("C:\\Users\\119667631\\git\\HCOM_202501_CodificacaoSeguraV2pub");
+		File repoDir = new File(path);
 
 		traverseDirectory(repoDir, allFiles);
 		
@@ -42,10 +47,10 @@ public class GitInspector {
 			}
 		}
 
-		System.out.println(allData);
+		return allData;
 	}
 
-	public static List<Integer> grep(File f, String pattern) throws IOException {
+	private static List<Integer> grep(File f, String pattern) throws IOException {
         List<Integer> matchingLines = new ArrayList<>();
 
         try (BufferedReader reader = Files.newBufferedReader(f.toPath())) {
@@ -71,7 +76,6 @@ public class GitInspector {
 
         Path relativePath = repoRoot.relativize(filePath);
 
-        // Convert to forward slashes (Git and most tools expect this)
         return relativePath.toString().replace("\\", "/");
 	}
 
@@ -94,13 +98,12 @@ public class GitInspector {
 
 		BlameData data = new BlameData();
 
-		// Open repository
 		try (Repository repository = new FileRepositoryBuilder().findGitDir(repoDir).setWorkTree(repoDir)
 				.readEnvironment().build()) {
 
 			try (Git git = new Git(repository)) {
-				// Run blame command
 				BlameResult blameResult = git.blame().setFilePath(relativeFilePath).call();
+				
 
 				if (blameResult != null) {
 					RevCommit commit = blameResult.getSourceCommit(lineNumber - 1);
