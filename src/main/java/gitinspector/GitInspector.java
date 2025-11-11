@@ -33,7 +33,7 @@ public class GitInspector {
                 BlameResult blameResult = git.blame()
                         .setFilePath(relativeFilePath)
                         .call();
-
+ 
                 if (blameResult != null) {
                     RevCommit commit = blameResult.getSourceCommit(lineNumber - 1);
                     PersonIdent author = blameResult.getSourceAuthor(lineNumber - 1);
