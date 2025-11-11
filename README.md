@@ -1,8 +1,10 @@
 # gitinspector
 
-Simple Git Inspector in Java
+Simple Git Inspector in Java.
 
-Searches for ASVS comments in files at directory DIR and returns who committed that line (blame)
+Searches for ASVS comments in files at directory DIR and returns who committed that line (blame).
+
+Generate the fat jar using mvn install.
 
 Example:
 
@@ -16,4 +18,4 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 </code>
 </pre>
 
-see Main.class for details
+see Main.class for details.
