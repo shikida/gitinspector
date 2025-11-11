@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameResult;
@@ -23,7 +25,9 @@ public class GitInspector {
 
 	public static void main(String[] args) throws Exception {
 		List<BlameData> result = process("C:\\Users\\119667631\\git\\HCOM_202501_CodificacaoSeguraV2pub");
-		System.out.println(result);
+		for(BlameData bd:result) {
+			System.out.println(bd.getLine()+"\t"+bd.getFlag()+"\t"+bd.getAuthor());
+		}
 	}
 	
 	public static List<BlameData> process(String path) throws Exception {
@@ -39,10 +43,11 @@ public class GitInspector {
 		List<BlameData> allData = new ArrayList<>();
 		
 		for(File f:allFiles) {
-			List<Integer> lines = grep(f,FLAG);
-			for(Integer line:lines) {
+			Map<Integer,String> lines = grep(f,FLAG);
+			for(Integer line:lines.keySet()) {
 				String relativeFilePath = getRelativeFilePath(repoDir,f);
 				BlameData data = getBlame(repoDir, relativeFilePath, line);	
+				data.setFlag(lines.get(line));
 				allData.add(data);
 			}
 		}
@@ -50,8 +55,8 @@ public class GitInspector {
 		return allData;
 	}
 
-	private static List<Integer> grep(File f, String pattern) throws IOException {
-        List<Integer> matchingLines = new ArrayList<>();
+	private static Map<Integer,String> grep(File f, String pattern) throws IOException {
+		Map<Integer,String> matchingLines = new LinkedHashMap<>();
 
         try (BufferedReader reader = Files.newBufferedReader(f.toPath())) {
             String line;
@@ -60,7 +65,7 @@ public class GitInspector {
             while ((line = reader.readLine()) != null) {
                 lineNumber++;
                 if (line.contains(pattern)) {
-                    matchingLines.add(lineNumber);
+                    matchingLines.put(lineNumber,line);
                 }
             }
         }catch(Exception e) {

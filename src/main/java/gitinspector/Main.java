@@ -8,7 +8,10 @@ public class Main {
 
 		List<BlameData> result = GitInspector.process(args[0]);
 
-		System.out.println(result);
+		for(BlameData bd:result) {
+			System.out.println(bd.getLine()+"\t"+bd.getFlag()+"\t"+bd.getAuthor());
+		}
+
 	}
 
 }

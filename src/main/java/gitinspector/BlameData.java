@@ -9,6 +9,7 @@ public class BlameData {
 	private String author;
 	private Date date;
 	private String message;
+	private String flag;
 	
 	public int getLine() {
 		return line;
@@ -40,10 +41,16 @@ public class BlameData {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 	@Override
 	public String toString() {
 		return "BlameData [line=" + line + ", commit=" + commit + ", author=" + author + ", date=" + date + ", message="
-				+ message + "]";
+				+ message + ", flag=" + flag + "]";
 	}
 	
 	
