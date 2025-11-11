@@ -13,19 +13,19 @@ public class GitInspector {
 
 	public static void main(String[] args)  throws Exception {
 		// Path to your local .git directory
-        File repoDir = new File("C:\\Users\\119667631\\git");
+        File repoDir = new File("C:\\Users\\119667631\\git\\gitinspector");
 
         // Path to file relative to repo root (e.g., "src/main/java/com/example/App.java")
-        String relativeFilePath = "\\gitinspector\\src\\main\\java\\gitinspector\\GitInspector.java";
+        String relativeFilePath = "src/main/java/gitinspector/GitInspector.java";
 
         // Line number (1-based)
         int lineNumber = 42;
 
         // Open repository
         try (Repository repository = new FileRepositoryBuilder()
-                .setGitDir(repoDir)
+                .findGitDir(repoDir)
+                .setWorkTree(repoDir)
                 .readEnvironment()
-                .findGitDir()
                 .build()) {
 
             try (Git git = new Git(repository)) {
